@@ -2,107 +2,166 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Avance de Java · Programación Orientada a Objetos</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cruz del Sur · Acceso al panel de administración</title>
 <style>
-:root{--bg:#0a1220;--panel:#111d33;--line:#26385a;--ink:#e8edf6;--muted:#9aa8c2;--star:#e9c46a;--blue:#1f4fa3}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;line-height:1.55}
-.wrap{max-width:960px;margin:0 auto;padding:48px 20px 64px}
-header h1{margin:0 0 8px;font-size:2rem}
-header p{margin:0;color:var(--muted);max-width:60ch}
-h2{margin:48px 0 16px;font-size:1.2rem}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px;margin-bottom:20px}
-.card h3{margin:0 0 6px;font-size:1.15rem}
-.card p{margin:0 0 14px;color:var(--muted)}
-.tags{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px;padding:0;list-style:none}
-.tags li{font-size:.8rem;border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--star)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-@media(max-width:720px){.grid{grid-template-columns:1fr}}
-/* Vista previa de la ventana Swing */
-.win{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff;color:#0f1c33;font-size:.8rem}
-.bar{background:#dfe3ea;padding:6px 10px;font-size:.75rem;color:#444}
-.win .body{display:grid;grid-template-columns:1fr 1fr;min-height:200px}
-.win .l{background:linear-gradient(160deg,#18294a,#0f1c33);color:#fff;padding:14px;position:relative}
-.win .l b{display:block;font-size:.95rem}
-.win .l span{color:#b9c5dc;font-size:.7rem}
-.win .l i{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--star)}
-.win .r{padding:14px}
-.win .r div{border:1px solid #c8cfdb;border-radius:4px;padding:5px 7px;margin:4px 0 8px;color:#777;font-size:.72rem}
-.win .btns{display:flex;gap:6px}
-.win .btns em{flex:1;text-align:center;font-style:normal;border:1px solid #c8cfdb;border-radius:4px;padding:5px 2px;font-size:.68rem}
-.win .btns em.p{background:var(--blue);color:#fff;border-color:var(--blue)}
-pre{margin:0;background:#0a1220;border:1px solid var(--line);border-radius:8px;padding:14px;overflow-x:auto;font-size:.8rem;line-height:1.5}
-code{font-family:Consolas,"Courier New",monospace;color:#cfe0ff}
-.btn{display:inline-block;margin:16px 10px 0 0;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600;font-size:.9rem;border:1px solid var(--line);color:var(--ink)}
-.btn.p{background:var(--star);color:#0f1c33;border-color:var(--star)}
-.btn:focus-visible{outline:3px solid var(--star);outline-offset:2px}
-.todo{border-style:dashed;opacity:.85}
-footer{margin-top:40px;color:var(--muted);font-size:.85rem}
+:root{
+  --bg:#eef1f6; --panel:#ffffff; --ink:#0f1c33; --muted:#5a6780; --line:#d5dbe6;
+  --night:#0f1c33; --night2:#18294a; --star:#e9c46a; --accent:#1f4fa3; --accent-ink:#ffffff;
+  --err:#b3261e; --ok:#1d6b3f;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0a1220; --panel:#111d33; --ink:#e8edf6; --muted:#9aa8c2; --line:#26385a;
+    --night:#0a1220; --night2:#13213d; --accent:#e9c46a; --accent-ink:#0f1c33;
+    --err:#ff8a80; --ok:#7fd6a0;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0a1220; --panel:#111d33; --ink:#e8edf6; --muted:#9aa8c2; --line:#26385a;
+  --night:#0a1220; --night2:#13213d; --accent:#e9c46a; --accent-ink:#0f1c33;
+  --err:#ff8a80; --ok:#7fd6a0;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;min-height:100%;background:var(--bg);color:var(--ink);
+  font-family:"Sora","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  display:grid;place-items:center;padding:24px;line-height:1.5;
+}
+.card{
+  width:100%;max-width:880px;display:grid;grid-template-columns:1fr 1fr;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+}
+.brand{
+  background:linear-gradient(160deg,var(--night2),var(--night));color:#eef2fa;
+  padding:40px 36px;display:flex;flex-direction:column;justify-content:space-between;min-height:460px;
+}
+.brand h1{margin:0 0 6px;font-size:1.6rem;font-weight:600;letter-spacing:.01em}
+.brand p{margin:0;color:#b9c5dc;font-size:.95rem;max-width:30ch}
+.cross{width:100%;max-width:240px;align-self:center;margin:24px 0}
+.cross .s{fill:var(--star)}
+.cross .l{stroke:#4a6190;stroke-width:1;stroke-dasharray:3 4}
+.brand small{color:#8fa0c0;font-size:.8rem}
+.form{padding:40px 36px;display:flex;flex-direction:column;justify-content:center}
+.form h2{margin:0 0 4px;font-size:1.3rem;font-weight:600}
+.form .sub{margin:0 0 24px;color:var(--muted);font-size:.92rem}
+label{display:block;font-size:.88rem;font-weight:500;margin-bottom:6px}
+.field{margin-bottom:18px}
+input{
+  width:100%;font:inherit;color:var(--ink);background:transparent;
+  border:1px solid var(--line);border-radius:8px;padding:11px 12px;
+}
+input::placeholder{color:var(--muted);opacity:.8}
+input:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.pw{position:relative}
+.pw input{padding-right:92px}
+.toggle{
+  position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  font:inherit;font-size:.8rem;background:transparent;color:var(--muted);
+  border:1px solid transparent;border-radius:6px;padding:6px 10px;cursor:pointer;
+}
+.toggle:hover{color:var(--ink);border-color:var(--line)}
+.actions{display:flex;gap:10px;margin-top:6px;flex-wrap:wrap}
+button.btn{
+  font:inherit;font-weight:600;border-radius:8px;padding:12px 18px;cursor:pointer;
+  flex:1 1 140px;border:1px solid var(--line);background:transparent;color:var(--ink);
+}
+button.btn:hover{border-color:var(--muted)}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button.primary:hover{filter:brightness(1.08);border-color:var(--accent)}
+.msg{min-height:1.4em;margin:16px 0 0;font-size:.88rem}
+.msg.err{color:var(--err)} .msg.ok{color:var(--ok)}
+@media (max-width:720px){
+  body{padding:12px}
+  .card{grid-template-columns:1fr}
+  .brand{min-height:0;padding:28px 24px}
+  .cross{max-width:140px;margin:16px 0}
+  .form{padding:28px 24px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <h1>Avance de Java</h1>
-    <p>Proyectos desarrollados en el curso de Programación Orientada a Objetos. Cada uno es una aplicación de escritorio en Java; aquí se muestra cómo se ve y cómo ejecutarla.</p>
-  </header>
+<main class="card">
+  <section class="brand" aria-label="Cruz del Sur">
+    <div>
+      <h1>Cruz del Sur</h1>
+      <p>Panel de administración</p>
+    </div>
+    <svg class="cross" viewBox="0 0 200 240" role="img" aria-label="Constelación de la Cruz del Sur">
+      <line class="l" x1="100" y1="20" x2="108" y2="215"/>
+      <line class="l" x1="30" y1="95" x2="170" y2="130"/>
+      <circle class="s" cx="100" cy="20" r="7"/>
+      <circle class="s" cx="108" cy="215" r="9"/>
+      <circle class="s" cx="30" cy="95" r="6"/>
+      <circle class="s" cx="170" cy="130" r="7"/>
+      <circle class="s" cx="128" cy="168" r="3.5"/>
+    </svg>
+    <small>Acceso solo para personal autorizado.</small>
+  </section>
 
-  <h2>Proyectos</h2>
+  <section class="form">
+    <h2>Ingresa a tu cuenta</h2>
+    <p class="sub">Usa tus credenciales de administrador.</p>
 
-  <!-- ===== Proyecto 1 ===== -->
-  <article class="card">
-    <h3>Panel de acceso · Cruz del Sur</h3>
-    <p>Ventana de inicio de sesión para un panel de administrador, con usuario, contraseña y validación de campos.</p>
-    <ul class="tags"><li>Java</li><li>Swing</li><li>Eventos</li><li>Layouts</li></ul>
-
-    <div class="grid">
-      <div class="win" aria-label="Vista previa de la ventana">
-        <div class="bar">Cruz del Sur - Panel de administración</div>
-        <div class="body">
-          <div class="l"><b>Cruz del Sur</b><span>Panel de administración</span>
-            <i style="left:50%;top:40%"></i><i style="left:62%;top:78%;width:10px;height:10px"></i>
-            <i style="left:28%;top:56%"></i><i style="left:74%;top:60%"></i><i style="left:56%;top:68%;width:5px;height:5px"></i>
-          </div>
-          <div class="r"><b>Ingresa a tu cuenta</b>
-            <div>Ingresar usuario</div><div>Ingresar contraseña &nbsp;•••• </div>
-            <p class="btns" style="margin:0"><em>Recordarme más tarde</em><em class="p">Ingresar</em></p>
-          </div>
+    <form id="login" novalidate onsubmit="return false">
+      <div class="field">
+        <label for="user">Usuario</label>
+        <input id="user" name="user" type="text" placeholder="Ingresar usuario" autocomplete="username" required>
+      </div>
+      <div class="field">
+        <label for="pass">Contraseña</label>
+        <div class="pw">
+          <input id="pass" name="pass" type="password" placeholder="Ingresar contraseña" autocomplete="current-password" required>
+          <button type="button" class="toggle" id="toggle" aria-controls="pass" aria-pressed="false">Mostrar</button>
         </div>
       </div>
-
-      <div>
-        <p><b style="color:var(--ink)">Lo que muestra:</b> campo de usuario, campo de contraseña, botón para ver la contraseña mientras se mantiene presionado, "Recordarme más tarde" e "Ingresar".</p>
-<pre><code>btnVer.addMouseListener(new MouseAdapter() {
-  public void mousePressed(MouseEvent e) {
-    txtClave.setEchoChar((char) 0);   // mostrar
-  }
-  public void mouseReleased(MouseEvent e) {
-    txtClave.setEchoChar(ocultar);    // ocultar
-  }
-});</code></pre>
+      <div class="actions">
+        <button type="button" class="btn" id="later">Recordarme más tarde</button>
+        <button type="submit" class="btn primary" id="enter">Ingresar</button>
       </div>
-    </div>
+      <p class="msg" id="msg" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+</main>
 
-    <a class="btn p" href="CruzDelSurLogin.java" download>Descargar código (.java)</a>
-    <a class="btn" href="#como-ejecutar">Cómo ejecutarlo</a>
-  </article>
+<script>
+(function(){
+  var user=document.getElementById('user'),
+      pass=document.getElementById('pass'),
+      toggle=document.getElementById('toggle'),
+      later=document.getElementById('later'),
+      enter=document.getElementById('enter'),
+      msg=document.getElementById('msg'),
+      timer;
 
-  <!-- ===== Proyectos pendientes: copia y edita este bloque ===== -->
-  <article class="card todo">
-    <h3>Proyecto 2 · (título)</h3>
-    <p>Describe aquí en una o dos frases qué hace tu programa y qué conceptos de POO usaste (clases, herencia, polimorfismo, etc.).</p>
-    <ul class="tags"><li>Java</li><li>Clases</li><li>Herencia</li></ul>
-  </article>
+  function say(text,type){ msg.textContent=text; msg.className='msg '+(type||''); }
 
-  <h2 id="como-ejecutar">Cómo ejecutar los proyectos</h2>
-  <div class="card">
-    <p>Necesitas tener instalado el JDK (versión 11 o superior). Descarga el archivo y, desde la carpeta donde esté, ejecuta:</p>
-<pre><code>javac CruzDelSurLogin.java
-java CruzDelSurLogin</code></pre>
-  </div>
+  // Ver la contraseña solo mientras se mantiene presionado el botón
+  function show(){ pass.type='text'; toggle.textContent='Ocultar'; toggle.setAttribute('aria-pressed','true'); }
+  function hide(){ pass.type='password'; toggle.textContent='Mostrar'; toggle.setAttribute('aria-pressed','false'); }
+  toggle.addEventListener('mousedown',show);
+  toggle.addEventListener('touchstart',function(e){e.preventDefault();show();},{passive:false});
+  ['mouseup','mouseleave','touchend','touchcancel','blur'].forEach(function(ev){toggle.addEventListener(ev,hide);});
+  toggle.addEventListener('keydown',function(e){ if(e.key===' '||e.key==='Enter'){e.preventDefault();show();} });
+  toggle.addEventListener('keyup',hide);
 
-  <footer>Hecho por: (tu nombre) · Curso: Programación Orientada a Objetos · Profesor: (nombre)</footer>
-</div>
+  later.addEventListener('click',function(){
+    clearTimeout(timer);
+    user.value=''; pass.value=''; hide();
+    say('Listo, te lo recordaremos más tarde.','ok');
+  });
+
+  enter.addEventListener('click',function(){
+    clearTimeout(timer);
+    if(!user.value.trim()){ say('Ingresa tu usuario.','err'); user.focus(); return; }
+    if(!pass.value){ say('Ingresa tu contraseña.','err'); pass.focus(); return; }
+    say('Página estática de demostración: las credenciales no se envían a ningún servidor.','ok');
+  });
+})();
+</script>
 </body>
 </html>
