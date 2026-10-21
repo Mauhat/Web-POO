@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Avance de Java · Programación Orientada a Objetos</title>
+<style>
+:root{--bg:#0a1220;--panel:#111d33;--line:#26385a;--ink:#e8edf6;--muted:#9aa8c2;--star:#e9c46a;--blue:#1f4fa3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;line-height:1.55}
+.wrap{max-width:960px;margin:0 auto;padding:48px 20px 64px}
+header h1{margin:0 0 8px;font-size:2rem}
+header p{margin:0;color:var(--muted);max-width:60ch}
+h2{margin:48px 0 16px;font-size:1.2rem}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px;margin-bottom:20px}
+.card h3{margin:0 0 6px;font-size:1.15rem}
+.card p{margin:0 0 14px;color:var(--muted)}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px;padding:0;list-style:none}
+.tags li{font-size:.8rem;border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--star)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:720px){.grid{grid-template-columns:1fr}}
+/* Vista previa de la ventana Swing */
+.win{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff;color:#0f1c33;font-size:.8rem}
+.bar{background:#dfe3ea;padding:6px 10px;font-size:.75rem;color:#444}
+.win .body{display:grid;grid-template-columns:1fr 1fr;min-height:200px}
+.win .l{background:linear-gradient(160deg,#18294a,#0f1c33);color:#fff;padding:14px;position:relative}
+.win .l b{display:block;font-size:.95rem}
+.win .l span{color:#b9c5dc;font-size:.7rem}
+.win .l i{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--star)}
+.win .r{padding:14px}
+.win .r div{border:1px solid #c8cfdb;border-radius:4px;padding:5px 7px;margin:4px 0 8px;color:#777;font-size:.72rem}
+.win .btns{display:flex;gap:6px}
+.win .btns em{flex:1;text-align:center;font-style:normal;border:1px solid #c8cfdb;border-radius:4px;padding:5px 2px;font-size:.68rem}
+.win .btns em.p{background:var(--blue);color:#fff;border-color:var(--blue)}
+pre{margin:0;background:#0a1220;border:1px solid var(--line);border-radius:8px;padding:14px;overflow-x:auto;font-size:.8rem;line-height:1.5}
+code{font-family:Consolas,"Courier New",monospace;color:#cfe0ff}
+.btn{display:inline-block;margin:16px 10px 0 0;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600;font-size:.9rem;border:1px solid var(--line);color:var(--ink)}
+.btn.p{background:var(--star);color:#0f1c33;border-color:var(--star)}
+.btn:focus-visible{outline:3px solid var(--star);outline-offset:2px}
+.todo{border-style:dashed;opacity:.85}
+footer{margin-top:40px;color:var(--muted);font-size:.85rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Avance de Java</h1>
+    <p>Proyectos desarrollados en el curso de Programación Orientada a Objetos. Cada uno es una aplicación de escritorio en Java; aquí se muestra cómo se ve y cómo ejecutarla.</p>
+  </header>
+
+  <h2>Proyectos</h2>
+
+  <!-- ===== Proyecto 1 ===== -->
+  <article class="card">
+    <h3>Panel de acceso · Cruz del Sur</h3>
+    <p>Ventana de inicio de sesión para un panel de administrador, con usuario, contraseña y validación de campos.</p>
+    <ul class="tags"><li>Java</li><li>Swing</li><li>Eventos</li><li>Layouts</li></ul>
+
+    <div class="grid">
+      <div class="win" aria-label="Vista previa de la ventana">
+        <div class="bar">Cruz del Sur - Panel de administración</div>
+        <div class="body">
+          <div class="l"><b>Cruz del Sur</b><span>Panel de administración</span>
+            <i style="left:50%;top:40%"></i><i style="left:62%;top:78%;width:10px;height:10px"></i>
+            <i style="left:28%;top:56%"></i><i style="left:74%;top:60%"></i><i style="left:56%;top:68%;width:5px;height:5px"></i>
+          </div>
+          <div class="r"><b>Ingresa a tu cuenta</b>
+            <div>Ingresar usuario</div><div>Ingresar contraseña &nbsp;•••• </div>
+            <p class="btns" style="margin:0"><em>Recordarme más tarde</em><em class="p">Ingresar</em></p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p><b style="color:var(--ink)">Lo que muestra:</b> campo de usuario, campo de contraseña, botón para ver la contraseña mientras se mantiene presionado, "Recordarme más tarde" e "Ingresar".</p>
+<pre><code>btnVer.addMouseListener(new MouseAdapter() {
+  public void mousePressed(MouseEvent e) {
+    txtClave.setEchoChar((char) 0);   // mostrar
+  }
+  public void mouseReleased(MouseEvent e) {
+    txtClave.setEchoChar(ocultar);    // ocultar
+  }
+});</code></pre>
+      </div>
+    </div>
+
+    <a class="btn p" href="CruzDelSurLogin.java" download>Descargar código (.java)</a>
+    <a class="btn" href="#como-ejecutar">Cómo ejecutarlo</a>
+  </article>
+
+  <!-- ===== Proyectos pendientes: copia y edita este bloque ===== -->
+  <article class="card todo">
+    <h3>Proyecto 2 · (título)</h3>
+    <p>Describe aquí en una o dos frases qué hace tu programa y qué conceptos de POO usaste (clases, herencia, polimorfismo, etc.).</p>
+    <ul class="tags"><li>Java</li><li>Clases</li><li>Herencia</li></ul>
+  </article>
+
+  <h2 id="como-ejecutar">Cómo ejecutar los proyectos</h2>
+  <div class="card">
+    <p>Necesitas tener instalado el JDK (versión 11 o superior). Descarga el archivo y, desde la carpeta donde esté, ejecuta:</p>
+<pre><code>javac CruzDelSurLogin.java
+java CruzDelSurLogin</code></pre>
+  </div>
+
+  <footer>Hecho por: (tu nombre) · Curso: Programación Orientada a Objetos · Profesor: (nombre)</footer>
+</div>
+</body>
+</html>
