@@ -27,6 +27,7 @@ public class CruzDelSurLogin extends JFrame {
     private final JButton btnIngresar = new JButton("Ingresar");
     private final JLabel lblMensaje = new JLabel(" ");
     private final char ocultar = txtClave.getEchoChar();
+    private final Sistema sistema = new Sistema();
 
     public CruzDelSurLogin() {
         super("Cruz del Sur - Panel de administración");
@@ -184,7 +185,13 @@ public class CruzDelSurLogin extends JFrame {
                 txtClave.requestFocus();
             } else {
                 // Aquí iría la validación real (base de datos, servicio, etc.)
-                mostrar("Demostración: las credenciales no se validan contra ningún servidor.", OK);
+                Usuario u = sistema.login(txtUsuario.getText().trim(), new String(txtClave.getPassword()));
+                if (u == null) {
+                    mostrar("Usuario o contraseña incorrectos.", ERROR);
+                } else {
+                    new PanelPrincipal(sistema, u).setVisible(true);
+                    dispose();
+                }
             }
         });
     }
